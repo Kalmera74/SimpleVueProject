@@ -1,5 +1,7 @@
 <template>
-  <vc-piechart :data="chartData" />
+  <div>
+    <vc-piechart :data="chartData" />
+  </div>
 </template>
 
 <script>

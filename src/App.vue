@@ -2,6 +2,7 @@
   <div id="app">
     <!-- <Vuetable v-bind:person="person" @vuetable:row-clicked="onActionClicked">
     </Vuetable> -->
+    <UserMap v-bind:mapData="geo"></UserMap>
     <Chart v-bind:chartData="pieData"></Chart>
     <Table v-bind:person="person" @row-clicked="AddToTheList"></Table>
   </div>
@@ -11,12 +12,15 @@
 import axios from "axios";
 import Table from "./components/Table";
 import Chart from "./components/Chart";
+import UserMap from "./components/Map";
+import Vue from "vue";
 
 export default {
   name: "App",
   components: {
     Table,
     Chart,
+    UserMap,
   },
   methods: {
     AddToTheList(item) {
@@ -26,11 +30,9 @@ export default {
         value: postData.counter,
         label: postData.user,
       };
-      console.log(piePart);
 
       if (this.pieData.indexOf(piePart) == -1) this.pieData.push(piePart);
       else this.pieData.splice(this.pieData.indexOf(piePart), 1);
-      console.log(this.pieData);
     },
     getRandomColor() {
       var letters = "0123456789ABCDEF";
@@ -45,7 +47,7 @@ export default {
     return {
       person: [],
       geo: {},
-      posts: {},
+      post: {},
       pieData: [],
     };
   },
@@ -57,6 +59,10 @@ export default {
       ])
       .then(
         axios.spread((userData, postData) => {
+          let persons = [],
+            posts = {},
+            geos = {};
+
           userData.data.forEach((d) => {
             let {
               id,
@@ -71,9 +77,11 @@ export default {
             company = company.name;
 
             const { lat, lng } = address.geo;
-
-            this.geo[id] = { lat, lng };
-
+            geos[id] = { lat: lat, lng: lng };
+            /*//!
+            this.geo[id] = { position: { lat, lng } };
+            
+*/
             address =
               address.street +
               "," +
@@ -83,7 +91,7 @@ export default {
               "," +
               address.zipcode;
 
-            this.person.push({
+            persons.push({
               id,
               name,
               username,
@@ -94,12 +102,16 @@ export default {
               address,
             });
 
-            this.posts[id] = { user: name, counter: 0 };
+            posts[id] = { user: name, counter: 0 };
           });
+
           postData.data.forEach((d) => {
             const { userId } = d;
-            this.posts[userId].counter += 1;
+            posts[userId].counter += 1;
           });
+          Vue.set(this, "geo", geos);
+          Vue.set(this, "person", persons);
+          Vue.set(this, "post", posts);
         })
       )
       .catch((e) => {

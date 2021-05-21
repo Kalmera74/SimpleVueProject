@@ -2,6 +2,17 @@ import Vue from 'vue'
 import App from './App.vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import vuetify from './plugins/vuetify'
+import * as VueGoogleMaps from 'vue2-google-maps'
+
+
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyD6F5Q0wPmoO4I35YmkOW9I4YSyg_1-mfU',
+    libraries: 'places',
+  }
+});
+
 
 Vue.config.productionTip = false
 
