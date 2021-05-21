@@ -1,28 +1,76 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Vuetable v-bind:person="person"></Vuetable>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
+import Vuetable from "./components/Chart";
+//import moment from "moment";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Vuetable,
+  },
+  data() {
+    return {
+      person: [],
+      geo: [],
+    };
+  },
+  postData() {
+    return {
+      posts: [],
+    };
+  },
+  async created() {
+    const { data } = await axios.get(
+      "https://jsonplaceholder.typicode.com/users"
+    );
+
+    data.forEach((d) => {
+      let { id, name, username, email, phone, website, company, address } = d;
+      company = company.name;
+
+      const { lat, lng } = address.geo;
+
+      this.geo.push({ id, lat, lng });
+
+      address =
+        address.street +
+        "," +
+        address.suit +
+        "," +
+        address.city +
+        "," +
+        address.zipcode;
+
+      this.person.push({
+        id,
+        name,
+        username,
+        email,
+        phone,
+        website,
+        company,
+        address,
+      });
+    });
+
+    const { postData } = await axios.get(
+      "https://jsonplaceholder.typicode.com/posts"
+    );
+
+    postData.forEach((d) => {
+      const { userid, id, title, body } = d;
+      this.posts.push({ userid, id, title, body });
+      console.log(this.person.keys);
+    });
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
