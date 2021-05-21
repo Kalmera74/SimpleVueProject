@@ -1,73 +1,93 @@
 <template>
   <div id="app">
-    <Vuetable v-bind:person="person"></Vuetable>
+    <!-- <Vuetable v-bind:person="person" @vuetable:row-clicked="onActionClicked">
+    </Vuetable> -->
+
+    <Table v-bind:person="person" @row-clicked="AddToTheList"></Table>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Vuetable from "./components/Chart";
-//import moment from "moment";
+import Table from "./components/Table";
+import Chart from "./components/Chart";
 
 export default {
   name: "App",
   components: {
-    Vuetable,
+    Table,
+  },
+  methods: {
+    AddToTheList(item) {
+      if (this.pieData.indexOf(item) == -1) this.pieData.push(item);
+      else this.pieData.splice(this.pieData.indexOf(item), 1);
+      console.log(this.pieData);
+    },
   },
   data() {
     return {
       person: [],
-      geo: [],
-    };
-  },
-  postData() {
-    return {
-      posts: [],
+      geo: {},
+      posts: {},
+      pieData: [],
     };
   },
   async created() {
-    const { data } = await axios.get(
-      "https://jsonplaceholder.typicode.com/users"
-    );
+    axios
+      .all([
+        axios.get("https://jsonplaceholder.typicode.com/users"),
+        axios.get("https://jsonplaceholder.typicode.com/posts"),
+      ])
+      .then(
+        axios.spread((userData, postData) => {
+          userData.data.forEach((d) => {
+            let {
+              id,
+              name,
+              username,
+              email,
+              phone,
+              website,
+              company,
+              address,
+            } = d;
+            company = company.name;
 
-    data.forEach((d) => {
-      let { id, name, username, email, phone, website, company, address } = d;
-      company = company.name;
+            const { lat, lng } = address.geo;
 
-      const { lat, lng } = address.geo;
+            this.geo[id] = { lat, lng };
 
-      this.geo.push({ id, lat, lng });
+            address =
+              address.street +
+              "," +
+              address.suit +
+              "," +
+              address.city +
+              "," +
+              address.zipcode;
 
-      address =
-        address.street +
-        "," +
-        address.suit +
-        "," +
-        address.city +
-        "," +
-        address.zipcode;
+            this.person.push({
+              id,
+              name,
+              username,
+              email,
+              phone,
+              website,
+              company,
+              address,
+            });
 
-      this.person.push({
-        id,
-        name,
-        username,
-        email,
-        phone,
-        website,
-        company,
-        address,
+            this.posts[id] = { user: name, counter: 0 };
+          });
+          postData.data.forEach((d) => {
+            const { userId } = d;
+            this.posts[userId].counter += 1;
+          });
+        })
+      )
+      .catch((e) => {
+        console.log(e.message);
       });
-    });
-
-    const { postData } = await axios.get(
-      "https://jsonplaceholder.typicode.com/posts"
-    );
-
-    postData.forEach((d) => {
-      const { userid, id, title, body } = d;
-      this.posts.push({ userid, id, title, body });
-      console.log(this.person.keys);
-    });
   },
 };
 </script>

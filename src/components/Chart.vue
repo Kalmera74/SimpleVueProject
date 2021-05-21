@@ -1,31 +1,8 @@
-<template>
-  <vuetable
-    ref="vuetable"
-    :fields="[
-      'id',
-      'name',
-      'username',
-      'email',
-      'phone',
-      'website',
-      'company',
-      'address',
-    ]"
-    :api-mode="false"
-    :data="person"
-    v-bind="$props"
-  ></vuetable>
-</template>
+<template></template>
 
 <script>
-import Vuetable from "vuetable-2";
+import * as agCharts from "ag-charts-community";
+import { AgChartsVue } from "ag-charts-vue";
 
-export default {
-  props: {
-    person: Array,
-  },
-  components: {
-    Vuetable,
-  },
-};
+export default {};
 </script>
