@@ -1,8 +1,17 @@
-<template></template>
+<template>
+  <vc-piechart :data="chartData" />
+</template>
 
 <script>
-import * as agCharts from "ag-charts-community";
-import { AgChartsVue } from "ag-charts-vue";
+import VcPiechart from "vc-piechart";
+import "vc-piechart/dist/lib/vc-piechart.min.css";
 
-export default {};
+export default {
+  props: {
+    chartData: Array,
+  },
+  components: {
+    VcPiechart,
+  },
+};
 </script>
