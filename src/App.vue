@@ -1,10 +1,15 @@
 <template>
   <div id="app">
-    <!-- <Vuetable v-bind:person="person" @vuetable:row-clicked="onActionClicked">
+    <div><h1 class="banner">MyFirst Vue Project</h1></div>
+    <div class="container">
+      <!-- <Vuetable v-bind:person="person" @vuetable:row-clicked="onActionClicked">
     </Vuetable> -->
-    <UserMap v-bind:mapData="geo" v-bind:center="center"></UserMap>
-    <chart :chartData="pieData"></chart>
-    <Table v-bind:person="person" @row-clicked="AddToTheList"></Table>
+      <UserMap v-bind:mapData="geo" v-bind:center="center"></UserMap>
+      <chart :chartData="pieData"></chart>
+    </div>
+    <div class="ctcontainer">
+      <Table v-bind:person="person" @row-clicked="AddToTheList"></Table>
+    </div>
   </div>
 </template>
 
@@ -116,4 +121,33 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: grey !important;
+  padding: 100px !important;
+}
+.container {
+  display: flex;
+}
+.item {
+  flex-basis: 50%;
+  margin: -40px 5px 5px 5px;
+  background-color: white;
+  padding: 20px 20px 0px 20px;
+}
+.tcontainer {
+  width: 90%;
+  height: 70%;
+  padding: 20px;
+  margin: 20px;
+  background-color: white;
+}
+.banner {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: black;
+  color: white;
+  width: 100%;
+  text-align: center;
+}
 </style>

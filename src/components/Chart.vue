@@ -1,58 +1,55 @@
 <template>
-  <e-charts class="charts" autoresize :options="pie"></e-charts>
+  <div class="item">
+    <v-chart class="chart" :option="option" />
+  </div>
 </template>
 
 <script>
-import ECharts from "vue-echarts";
-import "echarts/lib/chart/pie";
-import "echarts/lib/component/legend";
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { PieChart } from "echarts/charts";
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+} from "echarts/components";
+import VChart from "vue-echarts";
+
+use([
+  CanvasRenderer,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+]);
 
 export default {
+  name: "Chart",
+  components: {
+    VChart,
+  },
   props: {
     chartData: Array,
   },
   data() {
     return {
-      pie: {},
-    };
-  },
-  watch: {
-    chartData(n, o) {
-      console.log(o, n);
-      this.action();
-    },
-  },
-  methods: {
-    action() {
-      this.pie = {
+      option: {
         title: {
-          text: "Traffic Sources",
+          text: "Posts Percent",
           left: "center",
         },
-        legend: {
-          orient: "vertical",
-          left: "left",
-          data: [
-            "Direct",
-            "Email",
-            "Ad Networks",
-            "Video Ads",
-            "Search Engines",
-          ],
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
+
         series: [
           {
-            name: "Traffic Sources",
+            name: "Number of Posts",
             type: "pie",
             radius: "55%",
             center: ["50%", "60%"],
-            data: [
-              { value: 335, name: "Direct" },
-              { value: 310, name: "Email" },
-              { value: 234, name: "Ad Networks" },
-              { value: 135, name: "Video Ads" },
-              { value: 1548, name: "Search Engines" },
-            ],
+            data: this.chartData,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -62,21 +59,14 @@ export default {
             },
           },
         ],
-      };
-    },
-  },
-  mounted() {
-    this.action();
-  },
-  components: {
-    ECharts,
+      },
+    };
   },
 };
 </script>
 
-<style >
-.charts {
-  width: 1000px;
-  height: 1000px;
+<style scoped>
+.chartssss {
+  height: 400px;
 }
 </style>

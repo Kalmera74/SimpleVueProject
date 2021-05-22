@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="item">
+    <h1 id="header">User Locations</h1>
     <GmapMap :center="center" :zoom="0" style="width: 100%; height: 400px">
       <GmapMarker
         :key="index"
@@ -26,3 +27,12 @@ export default {
   name: "UserMap",
 };
 </script>
+
+<style scoped>
+#header {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #464646;
+}
+</style>
