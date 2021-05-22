@@ -2,7 +2,7 @@
   <div id="app">
     <!-- <Vuetable v-bind:person="person" @vuetable:row-clicked="onActionClicked">
     </Vuetable> -->
-    <UserMap v-bind:mapData="geo"></UserMap>
+    <UserMap v-bind:mapData="geo" v-bind:center="center"></UserMap>
     <chart :chartData="pieData"></chart>
     <Table v-bind:person="person" @row-clicked="AddToTheList"></Table>
   </div>
@@ -41,6 +41,7 @@ export default {
       geo: {},
       post: {},
       pieData: [],
+      center: {},
     };
   },
   async created() {
@@ -69,7 +70,7 @@ export default {
             company = company.name;
 
             const { lat, lng } = address.geo;
-            geos[id] = { lat: lat, lng: lng };
+            geos[id] = { lat: Number(lat), lng: Number(lng) };
             /*//!
             this.geo[id] = { position: { lat, lng } };
             
@@ -101,6 +102,7 @@ export default {
             const { userId } = d;
             posts[userId].counter += 1;
           });
+          Vue.set(this, "center", Object.values(geos)[0]);
           Vue.set(this, "geo", geos);
           Vue.set(this, "person", persons);
           Vue.set(this, "post", posts);

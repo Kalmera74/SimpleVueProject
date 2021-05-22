@@ -1,16 +1,12 @@
 <template>
   <div>
-    <!-- {{ mapData }} -->
-    <!-- <GmapMap
-      :center="mapData[1].position"
-      :zoom="12"
-      style="width: 100%; height: 400px"
-    /> -->
-    <!-- <GmapMarker
-      :key="index"
-      v-for="(m, index) in mapData"
-      :position="m.position"
-    /> -->
+    <GmapMap :center="center" :zoom="0" style="width: 100%; height: 400px">
+      <GmapMarker
+        :key="index"
+        v-for="(m, index) in Object.values(mapData)"
+        :position="m"
+      />
+    </GmapMap>
   </div>
 </template>
 
@@ -18,6 +14,14 @@
 export default {
   props: {
     mapData: Object,
+  },
+  data() {
+    return {
+      center: {
+        lat: 0,
+        lng: 0,
+      },
+    };
   },
   name: "UserMap",
 };

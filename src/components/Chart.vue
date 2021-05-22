@@ -1,5 +1,5 @@
 <template>
-  <e-charts autoresize :options="pie"></e-charts>
+  <e-charts class="charts" autoresize :options="pie"></e-charts>
 </template>
 
 <script>
@@ -24,23 +24,35 @@ export default {
   },
   methods: {
     action() {
-      console.log(this.chartData + "SIK");
       this.pie = {
         title: {
-          text: "Kamil Reyiz Data",
-          subtext: "sub text ulen",
+          text: "Traffic Sources",
           left: "center",
         },
         legend: {
           orient: "vertical",
           left: "left",
+          data: [
+            "Direct",
+            "Email",
+            "Ad Networks",
+            "Video Ads",
+            "Search Engines",
+          ],
         },
         series: [
           {
-            name: "MY pie",
+            name: "Traffic Sources",
             type: "pie",
-            radius: "50%",
-            data: this.chartData,
+            radius: "55%",
+            center: ["50%", "60%"],
+            data: [
+              { value: 335, name: "Direct" },
+              { value: 310, name: "Email" },
+              { value: 234, name: "Ad Networks" },
+              { value: 135, name: "Video Ads" },
+              { value: 1548, name: "Search Engines" },
+            ],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -61,3 +73,10 @@ export default {
   },
 };
 </script>
+
+<style >
+.charts {
+  width: 1000px;
+  height: 1000px;
+}
+</style>
