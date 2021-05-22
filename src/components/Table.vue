@@ -14,11 +14,13 @@ export default {
   },
   methods: {
     onActionClicked(item) {
+      //* Delegate the click-row event to the parent
       this.$emit("row-clicked", item);
     },
   },
   data() {
     return {
+      //* Define the headers for the table
       headers: [
         { text: "Id", value: "id" },
         { text: "Name", value: "name" },

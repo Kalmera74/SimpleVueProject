@@ -33,6 +33,7 @@ export default {
   },
   data() {
     return {
+      //* Defie options for chart configuration
       option: {
         title: {
           text: "Posts Percent",
