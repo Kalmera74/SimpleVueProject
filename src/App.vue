@@ -6,8 +6,7 @@
       <chart :chartData="pieData"></chart>
     </div>
     <div class="ctcontainer">
-      //* Catch the even delegated from the child as row-clicked and call
-      AddToTheList
+      <!-- Catch the even delegated from the child as row-clicked and call AddToTheList -->
       <Table v-bind:person="person" @row-clicked="AddToTheList"></Table>
     </div>
   </div>
