@@ -3,7 +3,7 @@
     <!-- <Vuetable v-bind:person="person" @vuetable:row-clicked="onActionClicked">
     </Vuetable> -->
     <UserMap v-bind:mapData="geo"></UserMap>
-    <Chart v-bind:chartData="pieData"></Chart>
+    <chart :chartData="pieData"></chart>
     <Table v-bind:person="person" @row-clicked="AddToTheList"></Table>
   </div>
 </template>
@@ -24,23 +24,15 @@ export default {
   },
   methods: {
     AddToTheList(item) {
-      const postData = this.posts[item.id];
+      const postData = this.post[item.id];
       const piePart = {
-        color: this.getRandomColor(),
         value: postData.counter,
-        label: postData.user,
+        name: postData.user,
       };
 
       if (this.pieData.indexOf(piePart) == -1) this.pieData.push(piePart);
       else this.pieData.splice(this.pieData.indexOf(piePart), 1);
-    },
-    getRandomColor() {
-      var letters = "0123456789ABCDEF";
-      var color = "#";
-      for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
+      console.log(this.pieData);
     },
   },
   data() {
