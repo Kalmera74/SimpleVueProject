@@ -2,11 +2,7 @@
   <div class="item">
     <h1 id="header">User Locations</h1>
     <GmapMap :center="center" :zoom="0" style="width: 100%; height: 400px">
-      <GmapMarker
-        :key="index"
-        v-for="(m, index) in Object.values(mapData)"
-        :position="m"
-      />
+      <GmapMarker :key="index" v-for="(m, index) in mapData" :position="m" />
     </GmapMap>
   </div>
 </template>
@@ -14,7 +10,7 @@
 <script>
 export default {
   props: {
-    mapData: Object,
+    mapData: Array,
   },
   data() {
     return {

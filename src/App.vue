@@ -4,7 +4,7 @@
     <div class="container">
       <!-- <Vuetable v-bind:person="person" @vuetable:row-clicked="onActionClicked">
     </Vuetable> -->
-      <UserMap v-bind:mapData="geo" v-bind:center="center"></UserMap>
+      <UserMap v-bind:mapData="mapData"></UserMap>
       <chart :chartData="pieData"></chart>
     </div>
     <div class="ctcontainer">
@@ -30,23 +30,43 @@ export default {
   methods: {
     AddToTheList(item) {
       const postData = this.post[item.id];
-      const piePart = {
-        value: postData.counter,
-        name: postData.user,
-      };
+      const geoData = this.geo[item.id];
 
-      if (this.pieData.indexOf(piePart) == -1) this.pieData.push(piePart);
-      else this.pieData.splice(this.pieData.indexOf(piePart), 1);
-      console.log(this.pieData);
+      const isInPosts = this.pieData.findIndex((elem) => {
+        if (elem.name == postData.user) {
+          return true;
+        }
+      });
+
+      const isInGeo = this.mapData.findIndex((elem) => {
+        if (elem.lat == geoData.lat && elem.lng == geoData.lng) {
+          return true;
+        }
+      });
+
+      if (isInPosts == -1) {
+        this.pieData.push({
+          value: postData.counter,
+          name: postData.user,
+        });
+      } else {
+        this.pieData.splice(isInPosts, 1);
+      }
+
+      if (isInGeo == -1) {
+        this.mapData.push(geoData);
+      } else {
+        this.mapData.splice(isInGeo, 1);
+      }
     },
   },
   data() {
     return {
       person: [],
       geo: {},
+      mapData: [],
       post: {},
       pieData: [],
-      center: {},
     };
   },
   async created() {
@@ -107,7 +127,7 @@ export default {
             const { userId } = d;
             posts[userId].counter += 1;
           });
-          Vue.set(this, "center", Object.values(geos)[0]);
+
           Vue.set(this, "geo", geos);
           Vue.set(this, "person", persons);
           Vue.set(this, "post", posts);
