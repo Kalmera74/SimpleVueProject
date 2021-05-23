@@ -1,6 +1,6 @@
 # Simple Vue2 Project, With Vuetify, Echarts, and Google Maps.
 
-This is a simple sample project that I developed for and job interview. It loads user and user posts data from an API with axion then tabulate a Vuetify table. When the user clicks on a row of the table it then drop a marker into the map shoeing the user's location with Google Maps. Also, shows their post counts and it's overall percentage in a piechart with echarts.
+This is a simple sample project that I developed for a job interview. It loads user and user posts data from an API with axion then tabulate a Vuetify table. When the user clicks on a row of the table it then drop a marker into the map shoeing the user's location with Google Maps. Also, shows their post counts and it's overall percentage in a piechart with echarts.
 
 The modules I used are;
 * npm install echarts vue-echarts
